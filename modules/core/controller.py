@@ -77,7 +77,7 @@ class KettleController(ControllerBase, ActorController, SensorController):
     @staticmethod
     def chart(kettle):
         result = []
-        result.append({"name": "Temp", "data_type": "sensor", "data_id": kettle.sensor})
+        result.append({"name": kettle.name+"Temp", "data_type": "sensor", "data_id": kettle.sensor})
         result.append({"name": "Target Temp", "data_type": "kettle", "data_id": kettle.id})
 
         return result
@@ -118,7 +118,7 @@ class FermenterController(ControllerBase, ActorController, SensorController):
     @staticmethod
     def chart(fermenter):
         result = []
-        result.append({"name": "Temp", "data_type": "sensor", "data_id": fermenter.sensor})
+        result.append({"name": fermenter.name+"Temp", "data_type": "sensor", "data_id": fermenter.sensor})
         result.append({"name": "Target Temp", "data_type": "fermenter", "data_id": fermenter.id})
         return result
 
@@ -166,3 +166,9 @@ class FermenterController(ControllerBase, ActorController, SensorController):
             id = self.fermenter_id
         return self.get_sensor_value(int(self.api.cache.get("fermenter").get(id).sensor))
 
+    @cbpi.try_catch(None)
+    def get_temp2(self, id=None):
+ 
+        if id is None:
+            id = self.fermenter_id
+        return self.get_sensor_value(int(self.api.cache.get("fermenter").get(id).sensor2))
