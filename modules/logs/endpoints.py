@@ -87,15 +87,17 @@ class LogView(FlaskView):
         array = []
         with open(filename, 'r', encoding='utf-8') as csv_file:
             reader = csv.reader(csv_file)
+            l_time=0
             for row in reader:
                 try:
-                    array.append([
-                        int((datetime.datetime.strptime(
-                            row[0], "%Y-%m-%d %H:%M:%S") -
-                             datetime.datetime(1970, 1, 1)).total_seconds()) *
-                        1000,
-                        float(row[1])
-                    ])
+                    p_time=int((datetime.datetime.strptime(        # get point timestamp
+                        row[0], "%Y-%m-%d %H:%M:%S") - 
+                        datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
+                     if ( abs(float(row[1])) < 110 ) and           # filter invalid points
+                         ( p_time >= l_time ):                     # only plot if more than 60 sec from previus point
+                         l_time = p_time + 60000;
+                         array.append([p_time , float(row[1])])
+         
                 except IndexError:
                     pass
         return array
