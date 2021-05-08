@@ -3,7 +3,7 @@ Flask-Classy==0.6.10
 Flask-SocketIO==2.6.2
 flask-envconfig
 greenlet==0.4.16
-eventlet==0.26.1
+eventlet==0.31.0
 
 python-engineio==3.13.1
 python-socketio==1.4.4
